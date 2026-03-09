@@ -20,7 +20,7 @@ services:
       UPLOAD_DIRECTORY: "/uploads"
       NEXT_PUBLIC_UPLOAD_DIRECTORY: "/uploads"
 
-      # === Sosyal Medya API Anahtarları (İhtiyacınıza göre doldurun) ===
+      # === Sosyal Medya API Anahtarları ===
       X_API_KEY: ""
       X_API_SECRET: ""
       LINKEDIN_CLIENT_ID: ""
@@ -78,27 +78,25 @@ services:
       POSTGRES_DB: postiz-db-local
     volumes:
       - postgres-volume:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
     networks:
       - postiz-network
     healthcheck:
       test: pg_isready -U postiz-user -d postiz-db-local
       interval: 10s
-      timeout: 3s
-      retries: 3
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   postiz-redis:
     image: redis:7.2
     container_name: postiz-redis
     restart: always
-    ports:
-      - 6379:6379
     healthcheck:
       test: redis-cli ping
       interval: 10s
-      timeout: 3s
-      retries: 3
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     volumes:
       - postiz-redis-data:/data
     networks:
