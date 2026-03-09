@@ -63,10 +63,8 @@ services:
     networks:
       - postiz-network
     depends_on:
-      postiz-postgres:
-        condition: service_healthy
-      postiz-redis:
-        condition: service_healthy
+      - postiz-postgres
+      - postiz-redis
 
   postiz-postgres:
     image: postgres:14.5
@@ -80,23 +78,11 @@ services:
       - postgres-volume:/var/lib/postgresql/data
     networks:
       - postiz-network
-    healthcheck:
-      test: pg_isready -U postiz-user -d postiz-db-local
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
 
   postiz-redis:
     image: redis:7.2
     container_name: postiz-redis
     restart: always
-    healthcheck:
-      test: redis-cli ping
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
     volumes:
       - postiz-redis-data:/data
     networks:
