@@ -61,14 +61,6 @@ services:
       - postiz-uploads:/uploads/
     expose:
       - "5000"
-    labels:
-      - "coolify.managed=true"
-      - "traefik.enable=true"
-      - "traefik.http.routers.postiz.rule=Host(`postiz.vogolab.com`)"
-      - "traefik.http.routers.postiz.entrypoints=https"
-      - "traefik.http.routers.postiz.tls=true"
-      - "traefik.http.routers.postiz.tls.certresolver=letsencrypt"
-      - "traefik.http.services.postiz.loadbalancer.server.port=5000"
     networks:
       - postiz-network
       - temporal-network
